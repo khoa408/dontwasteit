@@ -1,0 +1,8 @@
+{
+  "items": [
+    { "itemName": "apple", "expiDate": "01/01/2021" },
+    { "itemName": "orange", "expiDate": "01/01/2021" },
+    { "itemName": "banana", "expiDate": "01/01/2021" },
+    { "itemName": "avocado", "expiDate": "01/01/2021" }
+  ]
+}
