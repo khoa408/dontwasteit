@@ -1,3 +1,16 @@
-.feed{ 
-    background: grey;
+.feed {
+  background: rgb(224, 164, 164);
+  padding: 1rem;
+}
+
+.food-date-list {
+  display: flex;
+  justify-content: space-between;
+}
+
+.item {
+}
+
+.expi-date {
+  padding-left: 1rem;
 }
