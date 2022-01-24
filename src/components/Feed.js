@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import "./Feed.css";
 import ItemEntry from "./ItemEntry";
 import testdata from "./testdata.json";
@@ -50,9 +50,9 @@ const Feed = () => {
     setItems(sorted);
   };
 
-  useEffect(() => {
-    sortByDateHandler();
-  }, []);
+  // useEffect(() => {
+  //   sortByDateHandler();
+  // }, []);
 
   return (
     <div className="feed">
