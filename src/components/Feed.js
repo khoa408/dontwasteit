@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import "./Feed.css";
 import ItemEntry from "./ItemEntry";
 import testdata from "./testdata.json";
-import sortByDate from "./../utils/FeedSort";
 import {
   FormLabel,
   FormControlLabel,
@@ -51,37 +50,27 @@ const Feed = () => {
     setItems(sorted);
   };
 
-  const scrollToBottom = () => {
-    bottomRef.current.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  };
-
   useEffect(() => {
     sortByDateHandler();
   }, []);
 
   return (
     <div className="feed">
-      <button type="button" onClick={scrollToBottom}>
-        Scroll To Bottom
-      </button>
       <h3>Item : Expiration</h3>
       <FormControl component="fieldset">
         <FormLabel component="legend">Sort By</FormLabel>
         <RadioGroup row defaultValue="date" name="radio-buttons-group">
           <FormControlLabel
-            onChange={sortByDateHandler}
-            value="date"
-            control={<Radio />}
-            label="Date"
-          />
-          <FormControlLabel
             onChange={sortByNameHandler}
             value="item"
             control={<Radio />}
             label="Item"
+          />
+          <FormControlLabel
+            onChange={sortByDateHandler}
+            value="date"
+            control={<Radio />}
+            label="Date"
           />
         </RadioGroup>
       </FormControl>
