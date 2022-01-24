@@ -1,9 +1,17 @@
 {
   "items": [
-    { "itemName": "apple", "expiDate": "01/01/2021" },
-    { "itemName": "orange", "expiDate": "01/05/2021" },
-    { "itemName": "banana", "expiDate": "01/03/2021" },
-    { "itemName": "apple", "expiDate": "01/04/2021" },
-    { "itemName": "avocado", "expiDate": "01/02/2021" }
+    { "itemName": "apple", "expiDate": "01/01/2022" },
+    { "itemName": "orange", "expiDate": "01/05/2022" },
+    { "itemName": "banana", "expiDate": "01/03/2022" },
+    { "itemName": "watermelon soda", "expiDate": "03/11/2022" },
+    { "itemName": "zuccini oragnic from farmers market", "expiDate": "01/05/2022" },
+    { "itemName": "kimchi", "expiDate": "01/03/2022" },
+    { "itemName": "pickles in a jar", "expiDate": "11/01/2022" },
+    { "itemName": "Idahoan Mashed Potatoes Original", "expiDate": "02/14/2022" },
+    { "itemName": "Golden Sweet Yam", "expiDate": "01/31/2022" },
+    { "itemName": "Lettuce Butter Bibb / Boston", "expiDate": "10/13/2022" },
+    { "itemName": "O Organics Onion Sweet", "expiDate": "08/15/2022" },
+    { "itemName": "avocado", "expiDate": "01/02/2022" },
+    { "itemName": "Greek yogurt", "expiDate": "04/20/2022" }
   ]
 }

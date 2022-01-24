@@ -1,17 +1,20 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import "./Feed.css";
 import ItemEntry from "./ItemEntry";
 import testdata from "./testdata.json";
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
 import {
   FormLabel,
   FormControlLabel,
   RadioGroup,
   FormControl,
   Radio,
+  Divider,
 } from "@mui/material";
 
 const Feed = () => {
-  const bottomRef = useRef();
   const [items, setItems] = useState(
     testdata.items.map((item) => ({
       itemName: item.itemName,
@@ -39,11 +42,6 @@ const Feed = () => {
     let sorted = sortByDate(items);
     setItems(sorted);
   };
-
-  // const payload = testdata;
-  // const listItems = payload.items.map((item) => (
-  //   <p key={item.itemName}>{item.itemName + " : " + item.expiDate}</p>
-  // ));
 
   const handleNewItemEntry = (newItem) => {
     let sorted = sortByDate([...items, newItem]);
@@ -74,18 +72,32 @@ const Feed = () => {
           />
         </RadioGroup>
       </FormControl>
-      <div>
+      <List
+        sx={{
+          width: '100%',
+          maxWidth: 360,
+          bgcolor: 'background.paper',
+          position: 'relative',
+          overflow: 'auto',
+          maxHeight: 620,
+          '& ul': { padding: 0 },
+        }}
+        subheader={<li />}
+      >
         {items.map((item) => (
-          <div className="food-date-list" ref={bottomRef}>
-            <div className="item">{item.itemName}</div>
-            <div className="expi-date">
-              {new Date(item.expiDate).toDateString()}
-            </div>
-          </div>
+          <li key={`section-${item}`}>
+            <ul>
+              <ListItem key={`item-${item}`}>
+                <ListItemText className="item" primary={`${item.itemName}`} />
+                <ListItemText className="expi-date" primary={`${new Date(item.expiDate).toDateString()}`} />
+                
+              </ListItem>
+              <Divider />
+            </ul>
+          </li>
+
         ))}
-        {/* <p>{listItems}</p>
-        <div ref={bottomRef} className="list-bottom"></div> */}
-      </div>
+      </List>
       <ItemEntry onEnteringNewItem={handleNewItemEntry} />
     </div>
   );

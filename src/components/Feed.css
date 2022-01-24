@@ -3,11 +3,6 @@
   height: auto;
 }
 
-.food-date-list {
-  display: flex;
-  justify-content: space-between;
-}
-
 .expi-date {
-  padding-left: 1rem;
+  text-align: right;
 }

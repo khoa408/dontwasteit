@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 
@@ -51,10 +51,7 @@ const ItemEntry = (props) => {
   return (
     <div className="item-entry">
       <button className="button">Scan Item</button>
-
-      <button onClick={handleOpen} className="button">
-        Manual Entry
-      </button>
+      <button className="button" onClick={handleOpen}>Manual Entry</button>
 
       <Modal
         open={open}
