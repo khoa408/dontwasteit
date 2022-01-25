@@ -36,22 +36,10 @@ const ItemEntry = (props) => {
     event.preventDefault();
   };
 
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 200,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
-  };
-
   return (
     <div className="item-entry">
-      <button className="button">Scan Item</button>
-      <button className="button" onClick={handleOpen}>Manual Entry</button>
+      <Button variant="contained" disabled>Scan Item</Button>
+      <Button variant="contained" onClick={handleOpen}>Manual Entry</Button>
 
       <Modal
         open={open}
@@ -59,7 +47,7 @@ const ItemEntry = (props) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
+        <Box className="box-style">
           <form onSubmit={handleSubmit}>
             <Typography id="modal-modal-title" variant="h6" component="h2">
               Manual Entry

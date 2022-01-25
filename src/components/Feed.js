@@ -79,7 +79,7 @@ const Feed = () => {
           bgcolor: 'background.paper',
           position: 'relative',
           overflow: 'auto',
-          maxHeight: 620,
+          maxHeight: 420,
           '& ul': { padding: 0 },
         }}
         subheader={<li />}
