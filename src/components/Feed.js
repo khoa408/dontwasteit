@@ -80,9 +80,8 @@ const Feed = () => {
           position: 'relative',
           overflow: 'auto',
           maxHeight: 420,
-          '& ul': { padding: 0 },
-        }}
-        subheader={<li />}
+          '& ul': { padding: 0 }
+        }}  
       >
         {items.map((item) => (
           <li key={`section-${item}`}>
