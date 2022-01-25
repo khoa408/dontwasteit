@@ -9,3 +9,13 @@
 .expi-date {
   text-align: right;
 }
+
+.item-date-list{
+
+    width: 100%;
+    max-width: 600px;
+    background-color: white;
+    position: relative;
+    overflow: auto;
+    max-height: 420px;
+}

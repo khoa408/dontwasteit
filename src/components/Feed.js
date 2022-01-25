@@ -73,15 +73,8 @@ const Feed = () => {
         </RadioGroup>
       </FormControl>
       <List
-        sx={{
-          width: '100%',
-          maxWidth: 600,
-          bgcolor: 'background.paper',
-          position: 'relative',
-          overflow: 'auto',
-          maxHeight: 420,
-          '& ul': { padding: 0 }
-        }}  
+        className="item-date-list"
+
       >
         {items.map((item) => (
           <li key={`section-${item}`}>
