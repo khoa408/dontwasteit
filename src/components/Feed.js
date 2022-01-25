@@ -75,7 +75,7 @@ const Feed = () => {
       <List
         sx={{
           width: '100%',
-          maxWidth: 360,
+          maxWidth: 600,
           bgcolor: 'background.paper',
           position: 'relative',
           overflow: 'auto',
