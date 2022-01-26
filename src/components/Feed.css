@@ -19,3 +19,7 @@
     overflow: auto;
     max-height: 420px;
 }
+
+.item-date-list ul{
+  padding: 0;
+}
