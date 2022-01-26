@@ -5,6 +5,7 @@ import testdata from "./testdata.json";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
+import DeleteIcon from '@mui/icons-material/Delete';
 import {
   FormLabel,
   FormControlLabel,
@@ -12,11 +13,13 @@ import {
   FormControl,
   Radio,
   Divider,
+  IconButton,
 } from "@mui/material";
 
 const Feed = () => {
   const [items, setItems] = useState(
     testdata.items.map((item) => ({
+      itemId: item.itemId,
       itemName: item.itemName,
       expiDate: item.expiDate,
     }))
@@ -44,8 +47,14 @@ const Feed = () => {
   };
 
   const handleNewItemEntry = (newItem) => {
+    newItem.itemId = items.length;
     let sorted = sortByDate([...items, newItem]);
     setItems(sorted);
+  };
+
+  const handleItemDeletion = (id) => {
+    const newItemList = items.filter((item) => item.itemId !== id);
+    setItems(newItemList);
   };
 
   // useEffect(() => {
@@ -74,20 +83,20 @@ const Feed = () => {
       </FormControl>
       <List
         className="item-date-list"
-
       >
-        {items.map((item) => (
-          <li key={`section-${item}`}>
-            <ul>
-              <ListItem key={`item-${item}`}>
-                <ListItemText className="item" primary={`${item.itemName}`} />
-                <ListItemText className="expi-date" primary={`${new Date(item.expiDate).toDateString()}`} />
-                
-              </ListItem>
-              <Divider />
-            </ul>
-          </li>
+        {items.map((item, index) => (
+          <>
+            <ListItem key={`item-${index}`} secondaryAction={
+              <IconButton onClick={() => handleItemDeletion(item.itemId)} edge="end" aria-label="delete">
+                <DeleteIcon />
+              </IconButton>
+            }>
+              <ListItemText primary={`${item.itemName}`} />
+              <ListItemText className="expi-date" primary={`${new Date(item.expiDate).toDateString()}`} />
 
+            </ListItem>
+            <Divider />
+          </>
         ))}
       </List>
       <ItemEntry onEnteringNewItem={handleNewItemEntry} />

@@ -24,6 +24,7 @@ const ItemEntry = (props) => {
     props.onEnteringNewItem({
       itemName: itemName,
       expiDate: selectedDate.toDateString(),
+      itemId: null
     });
     handleClose();
     setItemName("");
