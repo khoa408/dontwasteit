@@ -17,7 +17,7 @@
     background-color: white;
     position: relative;
     overflow: auto;
-    max-height: 420px;
+    max-height: 360px;
 }
 
 .item-date-list ul{
@@ -46,7 +46,7 @@
 .location-filter{
   display: flex;
   flex-direction: column;
-  padding-left: 1.5rem;
+  padding-left: 1rem;
 }
 
 .sorting-filter{
