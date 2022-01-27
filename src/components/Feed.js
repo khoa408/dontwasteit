@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Feed.css";
 import ItemEntry from "./ItemEntry";
-// import testdata from "./testdata.json";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -10,82 +9,28 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { db } from "./../Firebase";
 import {
   collection,
-  getDocs,
-  addDoc,
   setDoc,
   getDoc,
-  updateDoc,
-  deleteDoc,
   doc,
-  arrayUnion
 } from "firebase/firestore";
 
 import {
-  FormLabel,
   FormControlLabel,
   RadioGroup,
   FormControl,
   Radio,
   Divider,
   IconButton,
+  Select,
+  MenuItem,
 } from "@mui/material";
 
 const Feed = () => {
   const [items, setItems] = useState(null);
+  const [location, setLocation] = useState("fridge");
 
-  const itemsCollectionRef = collection(db, "items");
-  const itemsDocumentRef = doc(db,"items/items");
-  const itemsDocRef = doc(db, "items/kdtYNoQ2rEJVtAC8gTgL");
-  const weekday = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-
-  // const addDocument = async () => {
-  //   const docRef = await updateDoc(itemsDocRef,{
-  //     regions: arrayUnion("greater_virginia")
-  // });
-  // console.log("Document written with ID: ", docRef.id);
-  // };
-
-  // const addDocument = async () => {
-  //   const docRef = await addDoc(itemsCollectionRef.doc("items"), {
-  //     "items": [
-  //       { "itemName": "apple", "expiDate": "01/01/2022" },
-  //       { "itemName": "orange", "expiDate": "01/05/2022" },
-  //       { "itemName": "banana", "expiDate": "01/03/2022" },
-  //       { "itemName": "watermelon soda", "expiDate": "03/11/2022" },
-  //       { "itemName": "zuccini oragnic from farmers market", "expiDate": "01/05/2022" },
-  //       { "itemName": "kimchi", "expiDate": "01/03/2022" },
-  //       { "itemName": "pickles in a jar", "expiDate": "11/01/2022" },
-  //       { "itemName": "Idahoan Mashed Potatoes Original", "expiDate": "02/14/2022" },
-  //       { "itemName": "Golden Sweet Yam", "expiDate": "01/31/2022" },
-  //       { "itemName": "Lettuce Butter Bibb / Boston", "expiDate": "10/13/2022" },
-  //       { "itemName": "O Organics Onion Sweet", "expiDate": "08/15/2022" },
-  //       { "itemName": "avocado", "expiDate": "01/02/2022" },
-  //       { "itemName": "Greek yogurt", "expiDate": "04/20/2022" }
-  //     ]
-  //   });
-  //   console.log("Document written with ID: ", docRef.id);
-  // };
-
-  const addDocument = async () => {
-    const docRef = await setDoc(doc(itemsCollectionRef,"items"), {
-      "items": [
-        { "itemName": "apple", "expiDate": "01/01/2022" },
-        { "itemName": "orange", "expiDate": "01/05/2022" },
-        { "itemName": "banana", "expiDate": "01/03/2022" },
-        { "itemName": "watermelon soda", "expiDate": "03/11/2022" },
-        { "itemName": "zuccini oragnic from farmers market", "expiDate": "01/05/2022" },
-        { "itemName": "kimchi", "expiDate": "01/03/2022" },
-        { "itemName": "pickles in a jar", "expiDate": "11/01/2022" },
-        { "itemName": "Idahoan Mashed Potatoes Original", "expiDate": "02/14/2022" },
-        { "itemName": "Golden Sweet Yam", "expiDate": "01/31/2022" },
-        { "itemName": "Lettuce Butter Bibb / Boston", "expiDate": "10/13/2022" },
-        { "itemName": "O Organics Onion Sweet", "expiDate": "08/15/2022" },
-        { "itemName": "avocado", "expiDate": "01/02/2022" },
-        { "itemName": "Greek yogurt", "expiDate": "04/20/2022" }
-      ]
-    });
-    // console.log("Document written with ID: ", docRef.id);
-  };
+  const docRef = doc(db, `${location}/${location}`);
+  const weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   const sortByName = (objs) => {
     return [...objs].sort((a, b) => a.itemName.localeCompare(b.itemName));
@@ -112,12 +57,13 @@ const Feed = () => {
     let newItemsArray = [...items, newItem];
     let sortedItemsByDate = sortByDate(newItemsArray);
     setItems(sortedItemsByDate);
-    updateFirebaseDoc("items",[...items, newItem]);
+    updateFirebaseDoc([...items, newItem]);
   };
 
-  const updateFirebaseDoc = async (document,payload) => {
+  const updateFirebaseDoc = async (payload) => {
+    const collectionRef = collection(db, location);
     try {
-      await setDoc(doc(itemsCollectionRef,document), {
+      await setDoc(doc(collectionRef, location), {
         "items": payload
       });
     } catch (error) {
@@ -126,61 +72,79 @@ const Feed = () => {
   }
 
   const handleItemDeletion = (id) => {
-    const newItemList = items.filter((item) => item.itemId !== id);
+    let newItemList = [...items];
+    newItemList.splice(id, 1);
     setItems(newItemList);
-    updateFirebaseDoc("items",newItemList);
+    updateFirebaseDoc(newItemList);
+  };
+
+  const locationFilterHandler = (location) => {
+    setLocation(location);
+    getItems(location);
+  }
+
+  const getItems = async (location) => {
+    const docRef = doc(db, `${location}/${location}`);
+    const data = await getDoc(docRef);
+    let sorted = sortByDate(data.data().items);
+    setItems(sorted);
   };
 
   useEffect(() => {
     const getItems = async () => {
-      const data = await getDoc(itemsDocumentRef);
-      let sorted = sortByDate(data.data().items);      
+      const data = await getDoc(docRef);
+      let sorted = sortByDate(data.data().items);
       setItems(sorted);
     };
     getItems();
   }, []);
 
-  // useEffect(() => {
-  //   addDoc();
-
-  //   const itemsDocumentRef = doc(db, "items", "items");
-  //   const docSnap = getDoc(itemsDocumentRef);
-  //   console.log("Document data:", docSnap.data());
-  //   if (docSnap.exists()) {
-
-  //   } else {
-  //     // doc.data() will be undefined in this case
-  //     console.log("No such document!");
-  //   }
-  // }, []);
-
   return (
     <div className="feed">
-      <h3>Item : Expiration</h3>
-      <FormControl component="fieldset">
-        <FormLabel component="legend">Sort By</FormLabel>
-        <RadioGroup row defaultValue="date" name="radio-buttons-group">
-          <FormControlLabel
-            onChange={sortByNameHandler}
-            value="item"
-            control={<Radio />}
-            label="Item"
-          />
-          <FormControlLabel
-            onChange={sortByDateHandler}
-            value="date"
-            control={<Radio />}
-            label="Date"
-          />
-        </RadioGroup>
-      </FormControl>
+      <h2>Don't Waste It</h2>
+      <div className="filters">
+        <div className="sorting-filter">
+          <FormControl component="fieldset">
+            <p>Sort By</p>
+            <RadioGroup row defaultValue="date" name="radio-buttons-group">
+              <FormControlLabel
+                onChange={sortByNameHandler}
+                value="item"
+                control={<Radio />}
+                label="Item"
+              />
+              <FormControlLabel
+                onChange={sortByDateHandler}
+                value="date"
+                control={<Radio />}
+                label="Date"
+              />
+            </RadioGroup>
+          </FormControl>
+        </div>
+        <div className="location-filter">
+          <p>Location</p>
+          <Select sx={{ width: 160 }}
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={location}
+            defaultValue={"fridge"}
+            onChange={(event) => locationFilterHandler(event.target.value)}
+          >
+            <MenuItem value={"fridge"}>fridge</MenuItem>
+            <MenuItem value={"freezer"}>freezer</MenuItem>
+            <MenuItem value={"top cabinet"}>top cabinet</MenuItem>
+            <MenuItem value={"bottom cabinet"}>bottom cabinet</MenuItem>
+          </Select>
+        </div>
+      </div>
       <List
         className="item-date-list"
       >
         {items && items.map((item, index) => (
           <>
             <ListItem key={`item-${index}`} secondaryAction={
-              <IconButton onClick={() => handleItemDeletion(item.itemId)} edge="end" aria-label="delete">
+              <IconButton onClick={() => handleItemDeletion(index)} edge="end" aria-label="delete">
                 <DeleteIcon />
               </IconButton>
             }>
