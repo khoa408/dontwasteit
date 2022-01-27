@@ -101,7 +101,7 @@ const Feed = () => {
 
   return (
     <div className="feed">
-      <h2>Don't Waste It</h2>
+      <h2>Don't Waste It!</h2>
       <div className="filters">
         <div className="sorting-filter">
           <FormControl component="fieldset">
