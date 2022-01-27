@@ -13,6 +13,7 @@ import {
   getDocs,
   addDoc,
   setDoc,
+  getDoc,
   updateDoc,
   deleteDoc,
   doc,
@@ -33,7 +34,9 @@ const Feed = () => {
   const [items, setItems] = useState(null);
 
   const itemsCollectionRef = collection(db, "items");
+  const itemsDocumentRef = doc(db,"items/items");
   const itemsDocRef = doc(db, "items/kdtYNoQ2rEJVtAC8gTgL");
+  const weekday = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 
   // const addDocument = async () => {
   //   const docRef = await updateDoc(itemsDocRef,{
@@ -106,28 +109,33 @@ const Feed = () => {
   };
 
   const handleNewItemEntry = async (newItem) => {
-    newItem.itemId = items.length;
-    let sorted = sortByDate([...items, newItem]);
-    setItems(sorted);
-
-    const docRef = await setDoc(doc(itemsCollectionRef,"items"), {
-      "items": [...items, newItem]
-    });
-    // console.log("Document written with ID: ", docRef.id);
+    let newItemsArray = [...items, newItem];
+    let sortedItemsByDate = sortByDate(newItemsArray);
+    setItems(sortedItemsByDate);
+    updateFirebaseDoc("items",[...items, newItem]);
   };
+
+  const updateFirebaseDoc = async (document,payload) => {
+    try {
+      await setDoc(doc(itemsCollectionRef,document), {
+        "items": payload
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const handleItemDeletion = (id) => {
     const newItemList = items.filter((item) => item.itemId !== id);
     setItems(newItemList);
+    updateFirebaseDoc("items",newItemList);
   };
 
   useEffect(() => {
     const getItems = async () => {
-      const data = await getDocs(itemsCollectionRef);
-      console.log(data.docs[0].data());
-      setItems(data.docs[0].data().items);
-
-      console.log(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      const data = await getDoc(itemsDocumentRef);
+      let sorted = sortByDate(data.data().items);      
+      setItems(sorted);
     };
     getItems();
   }, []);
@@ -177,8 +185,7 @@ const Feed = () => {
               </IconButton>
             }>
               <ListItemText primary={`${item.itemName}`} />
-              <ListItemText className="expi-date" primary={`${new Date(item.expiDate).toDateString()}`} />
-
+              <ListItemText className="expi-date" primary={`${weekday[new Date(item.expiDate).getDay()]} ${item.expiDate}`} />
             </ListItem>
             <Divider />
           </>

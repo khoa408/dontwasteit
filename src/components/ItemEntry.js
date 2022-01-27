@@ -20,12 +20,18 @@ const ItemEntry = (props) => {
     setSelectedDate(date);
   };
 
+  const formatDate = (date) => {
+    let year = date.getFullYear();
+    let month = (1 + date.getMonth()).toString().padStart(2, '0');
+    let day = date.getDate().toString().padStart(2, '0');
+  
+    return month + '/' + day + '/' + year;  }
+
   const handleSubmit = (event) => {
-    props.onEnteringNewItem({
-      itemName: itemName,
-      expiDate: selectedDate.toDateString(),
-      itemId: null
-    });
+      props.onEnteringNewItem({
+        itemName: itemName,
+        expiDate: formatDate(selectedDate)
+      });
     handleClose();
     setItemName("");
     setSelectedDate(null);
