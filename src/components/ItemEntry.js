@@ -10,13 +10,12 @@ import "./ItemEntry.css";
 import TextField from "@mui/material/TextField";
 
 const ItemEntry = (props) => {
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [itemName, setItemName] = useState("");
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => { setOpen(false); setSelectedDate(null) };
   const handleDateChange = (date) => {
-    console.log(date);
     setSelectedDate(date);
   };
 
@@ -24,14 +23,14 @@ const ItemEntry = (props) => {
     let year = date.getFullYear();
     let month = (1 + date.getMonth()).toString().padStart(2, '0');
     let day = date.getDate().toString().padStart(2, '0');
-  
-    return month + '/' + day + '/' + year;  }
+    return month + '/' + day + '/' + year;
+  }
 
   const handleSubmit = (event) => {
-      props.onEnteringNewItem({
-        itemName: itemName,
-        expiDate: formatDate(selectedDate)
-      });
+    props.onEnteringNewItem({
+      itemName: itemName,
+      expiDate: formatDate(selectedDate)
+    });
     handleClose();
     setItemName("");
     setSelectedDate(null);
